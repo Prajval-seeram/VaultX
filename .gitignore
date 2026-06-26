@@ -1,0 +1,34 @@
+# Build
+build/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+CTestTestfile.cmake
+
+# Ninja
+.ninja_deps
+.ninja_log
+build.ninja
+
+# VS Code
+.vscode/
+
+# Database
+database/vault.db
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Executables
+*.exe
+*.dll
+*.o
+*.obj
+*.a
+*.lib
