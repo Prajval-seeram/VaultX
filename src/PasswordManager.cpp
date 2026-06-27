@@ -10,7 +10,7 @@ bool PasswordManager::Initialize(const std::string& dbPath) {
     return db.Open(dbPath) && db.InitializeSchema();
 }
 
-bool PasswordManager::IsVaultConfigured() {
+bool PasswordManager::IsVaultConfigured() const {
     return db.IsConfigured();
 }
 
@@ -75,7 +75,7 @@ bool PasswordManager::AddEntry(const std::string& service, const std::string& ac
     return false;
 }
 
-std::vector<DecryptedRecord> PasswordManager::GetAllEntries() {
+std::vector<DecryptedRecord> PasswordManager::GetAllEntries() const {
     std::vector<DecryptedRecord> results;
     if (!isUnlocked) return results;
 
@@ -89,7 +89,7 @@ std::vector<DecryptedRecord> PasswordManager::GetAllEntries() {
     return results;
 }
 
-std::vector<DecryptedRecord> PasswordManager::SearchEntries(const std::string& query) {
+std::vector<DecryptedRecord> PasswordManager::SearchEntries(const std::string& query) const {
     std::vector<DecryptedRecord> results;
     if (!isUnlocked) return results;
 
@@ -118,6 +118,6 @@ bool PasswordManager::DeleteEntry(int id) {
     return db.DeleteCredential(id);
 }
 
-std::string PasswordManager::GenerateSecurePassword(size_t length) {
+std::string PasswordManager::GenerateSecurePassword(size_t length) const {
     return crypto.GeneratePassword(length);
 }

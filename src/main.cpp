@@ -17,11 +17,17 @@ namespace {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
-    std::string ReadString(const std::string& prompt) {
+    std::string ReadString(const std::string& prompt, bool allowEmpty = false) {
         std::string input;
-        std::cout << prompt;
-        std::getline(std::cin, input);
-        return input;
+        while (true) {
+            std::cout << prompt;
+            std::getline(std::cin, input);
+            if (!allowEmpty && input.empty()) {
+                std::cout << "Input cannot be empty. Please try again.\n";
+                continue;
+            }
+            return input;
+        }
     }
 
     int ReadInt(const std::string& prompt) {
@@ -42,6 +48,11 @@ namespace {
         std::cout << "====================================\n";
         std::cout << "          " << title << "\n";
         std::cout << "====================================\n";
+    }
+
+    void WaitForKeypress() {
+        std::string dummy;
+        std::getline(std::cin, dummy);
     }
 }
 
@@ -69,15 +80,15 @@ int main() {
                 std::string pass1 = ReadString("Enter new Master Password: ");
                 std::string pass2 = ReadString("Confirm Master Password: ");
                 
-                if (pass1 != pass2 || pass1.empty()) {
-                    std::cout << "\nPasswords do not match or are empty. Press Enter to retry.\n";
-                    std::cin.get();
+                if (pass1 != pass2) {
+                    std::cout << "\nPasswords do not match. Press Enter to retry.\n";
+                    WaitForKeypress();
                 } else if (pm.SetupVault(pass1)) {
                     std::cout << "\nVault configured successfully! Press Enter to continue.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                 } else {
                     std::cout << "\nFailed to configure vault. Press Enter to exit.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                     return 1;
                 }
             } else if (choice == 2) {
@@ -95,10 +106,10 @@ int main() {
                 std::string pass = ReadString("Enter Master Password: ");
                 if (pm.UnlockVault(pass)) {
                     std::cout << "\nVault unlocked successfully! Press Enter to enter workspace.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                 } else {
                     std::cout << "\nIncorrect Master Password. Press Enter to retry.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                 }
             } else if (choice == 2) {
                 running = false;
@@ -130,7 +141,7 @@ int main() {
                         std::cout << "\nFailed to save credential.\n";
                     }
                     std::cout << "Press Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 2: {
@@ -147,12 +158,12 @@ int main() {
                         }
                     }
                     std::cout << "\nPress Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 3: {
                     DisplayHeader("SEARCH CREDENTIALS");
-                    std::string query = ReadString("Search for Service or Account: ");
+                    std::string query = ReadString("Search for Service or Account: ", false);
                     auto entries = pm.SearchEntries(query);
                     if (entries.empty()) {
                         std::cout << "\nNo matching credentials found.\n";
@@ -166,7 +177,7 @@ int main() {
                         }
                     }
                     std::cout << "\nPress Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 4: {
@@ -182,7 +193,7 @@ int main() {
                         std::cout << "\nFailed to update credential. Check if ID exists.\n";
                     }
                     std::cout << "Press Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 5: {
@@ -194,7 +205,7 @@ int main() {
                         std::cout << "\nFailed to delete credential.\n";
                     }
                     std::cout << "Press Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 6: {
@@ -207,13 +218,13 @@ int main() {
                         std::cout << "\nInvalid length. Please choose between 1 and 128.\n";
                     }
                     std::cout << "\nPress Enter to return.";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 7: {
                     pm.LockVault();
                     std::cout << "\nVault locked. Press Enter to continue.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
                 case 8: {
@@ -223,7 +234,7 @@ int main() {
                 }
                 default: {
                     std::cout << "\nInvalid option. Press Enter to try again.\n";
-                    std::cin.get();
+                    WaitForKeypress();
                     break;
                 }
             }

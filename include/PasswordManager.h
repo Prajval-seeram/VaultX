@@ -20,19 +20,19 @@ public:
 
     bool Initialize(const std::string& dbPath);
     
-    bool IsVaultConfigured();
+    bool IsVaultConfigured() const;
     bool SetupVault(const std::string& masterPassword);
     bool UnlockVault(const std::string& masterPassword);
     void LockVault();
     bool IsUnlocked() const;
     
     bool AddEntry(const std::string& service, const std::string& account, const std::string& password);
-    std::vector<DecryptedRecord> GetAllEntries();
-    std::vector<DecryptedRecord> SearchEntries(const std::string& query);
+    std::vector<DecryptedRecord> GetAllEntries() const;
+    std::vector<DecryptedRecord> SearchEntries(const std::string& query) const;
     bool UpdateEntry(int id, const std::string& service, const std::string& account, const std::string& newPassword);
     bool DeleteEntry(int id);
     
-    std::string GenerateSecurePassword(size_t length);
+    std::string GenerateSecurePassword(size_t length) const;
 
 private:
     Crypto crypto;

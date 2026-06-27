@@ -25,15 +25,15 @@ public:
     void Close();
     bool InitializeSchema();
     
-    bool IsConfigured();
+    bool IsConfigured() const;
     bool SetConfig(const std::vector<uint8_t>& masterHash, const std::vector<uint8_t>& salt);
-    bool GetConfig(std::vector<uint8_t>& out_masterHash, std::vector<uint8_t>& out_salt);
+    bool GetConfig(std::vector<uint8_t>& out_masterHash, std::vector<uint8_t>& out_salt) const;
     
     bool CreateCredential(const std::string& service, const std::string& account, 
                           const std::vector<uint8_t>& ciphertext, const std::vector<uint8_t>& iv, 
                           const std::vector<uint8_t>& authTag);
-    std::vector<EncryptedRecord> ReadAllCredentials();
-    std::vector<EncryptedRecord> SearchCredentials(const std::string& query);
+    std::vector<EncryptedRecord> ReadAllCredentials() const;
+    std::vector<EncryptedRecord> SearchCredentials(const std::string& query) const;
     bool UpdateCredential(int id, const std::string& service, const std::string& account, 
                           const std::vector<uint8_t>& ciphertext, const std::vector<uint8_t>& iv, 
                           const std::vector<uint8_t>& authTag);
