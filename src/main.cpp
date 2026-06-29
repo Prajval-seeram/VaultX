@@ -59,8 +59,6 @@ namespace {
 int main() {
     PasswordManager pm;
     
-    // Note: Ensure the "database" directory exists relative to execution path, 
-    // or SQLite will fail to create the file.
     if (!pm.Initialize("vault.db")) {
         std::cerr << "Fatal Error: Could not initialize database.\n";
         return 1;
